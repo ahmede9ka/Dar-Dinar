@@ -16,8 +16,21 @@
 ## Installation
 
 ### Prerequisites
+### Backend
 
-- PHP (version 8.1 or higher)
-- Composer
-- Symfony CLI (optional but recommended)
-- MySQL or PostgreSQL database
+![Symfony](https://img.shields.io/badge/Symfony-3C9EE7?logo=symfony&logoColor=white&style=flat-square)  
+- **Symfony**: A powerful PHP framework for building scalable and secure web applications.
+
+
+### Database
+
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white&style=flat-square)  
+- **MySQL**: A robust, open-source relational database management system.
+
+### Tools and Utilities
+
+![Composer](https://img.shields.io/badge/Composer-885630?logo=composer&logoColor=white&style=flat-square)  
+- **Composer**: A dependency manager for PHP, used to manage the project's packages.
+
+![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=flat-square)  
+- **Git**: A version control system for tracking changes and collaborating with other developers.
