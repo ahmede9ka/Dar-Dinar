@@ -6,12 +6,12 @@
 
 ## Features
 
-- **Expense Tracking**: Easily record and categorize your daily expenses to keep an eye on where your money goes.
-- **Income Management**: Manage multiple income streams and gain insights into your earnings.
-- **Budget Planning**: Set monthly or yearly budgets and monitor your spending against them.
-- **Financial Reports**: Generate detailed reports to visualize your spending habits and identify areas for improvement.
-- **Secure Authentication**: Ensure your financial data is safe with secure user authentication and encrypted data storage.
-- **Localized for Tunisia**: Tailored specifically to Tunisian financial contexts, including local currencies and financial regulations.
+- 🧾 **Expense Tracking**: Easily record and categorize your daily expenses to keep an eye on where your money goes.
+- 💰 **Income Management**: Manage multiple income streams and gain insights into your earnings.
+- 📅 **Budget Planning**: Set monthly or yearly budgets and monitor your spending against them.
+- 📊 **Financial Reports**: Generate detailed reports to visualize your spending habits and identify areas for improvement.
+- 🔒 **Secure Authentication**: Ensure your financial data is safe with secure user authentication and encrypted data storage.
+- 🇹🇳 **Localized for Tunisia**: Tailored specifically to Tunisian financial contexts, including local currencies and financial regulations.
 
 ## Installation
 
