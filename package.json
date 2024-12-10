@@ -1,0 +1,22 @@
+{
+  "name": "dar-dinar",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r     <img src=\"bin/assests/image.png\" alt=\"Logo\" width=\"100%\" height=\"100%\">\r </div>\r **Dar Dinar** is a financial management application specifically designed for Tunisian users. It aims to simplify budgeting, tracking expenses, and managing finances through a user-friendly interface. Whether you're an individual or a small business, Dar Dinar provides the tools you need to make informed financial decisions and gain better control over your finances.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run dev",
+    "dev": "webpack --mode development",
+    "prod": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^5.0.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "webpack-notifier": "^1.15.0"
+  }
+}
