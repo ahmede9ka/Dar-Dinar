@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Advice{% endblock %}
+
+{% block body %}
+    <h1>Create new Advice</h1>
+
+    {{ include('advice/_form.html.twig') }}
+
+    <a href="{{ path('app_advice_index') }}">back to list</a>
+{% endblock %}

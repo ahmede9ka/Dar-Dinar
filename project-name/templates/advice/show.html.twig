@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advice{% endblock %}
+
+{% block body %}
+    <h1>Advice</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ advice.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ advice.type }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ advice.message }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_advice_index') }}">back to list</a>
+
+    <a href="{{ path('app_advice_edit', {'id': advice.id}) }}">edit</a>
+
+    {{ include('advice/_delete_form.html.twig') }}
+{% endblock %}

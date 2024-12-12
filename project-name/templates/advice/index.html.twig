@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advice index{% endblock %}
+
+{% block body %}
+    <h1>Advice index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Message</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advice in advice %}
+            <tr>
+                <td>{{ advice.id }}</td>
+                <td>{{ advice.type }}</td>
+                <td>{{ advice.message }}</td>
+                <td>
+                    <a href="{{ path('app_advice_show', {'id': advice.id}) }}">show</a>
+                    <a href="{{ path('app_advice_edit', {'id': advice.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_advice_new') }}">Create new</a>
+{% endblock %}
