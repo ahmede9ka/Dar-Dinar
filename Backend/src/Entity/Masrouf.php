@@ -24,31 +24,67 @@ class Masrouf
     #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $type = null;
+
+    /**
+     * Get the ID of the Masrouf entity.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get the value of the Masrouf.
+     */
+    public function getValue(): ?float
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set the value of the Masrouf.
+     */
+    public function setValue(?float $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the date of the Masrouf.
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    /**
+     * Set the date of the Masrouf.
+     */
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function getValue(): ?float
+    /**
+     * Get the type of the Masrouf.
+     */
+    public function getType(): ?string
     {
-        return $this->value;
+        return $this->type;
     }
 
-    public function setValue(float $value): self
+    /**
+     * Set the type of the Masrouf.
+     */
+    public function setType(?string $type): self
     {
-        $this->value = $value;
+        $this->type = $type;
 
         return $this;
     }

@@ -24,6 +24,9 @@ class Revenue
     #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -49,6 +52,18 @@ class Revenue
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

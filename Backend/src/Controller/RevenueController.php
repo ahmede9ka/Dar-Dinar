@@ -6,56 +6,61 @@ use App\Entity\Revenue;
 use App\Repository\RevenueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/revenues')]
 class RevenueController extends AbstractController
 {
     #[Route(name: 'api_revenues_index', methods: ['GET'])]
-    public function index(RevenueRepository $revenueRepository): Response
+    public function index(RevenueRepository $repository): JsonResponse
     {
-        return $this->json($revenueRepository->findAll(), 200, [], ['groups' => ['revenue:read']]);
+        $revenues = $repository->findAll();
+        return $this->json($revenues);
     }
 
-    #[Route(name: 'api_revenues_new', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route(name: 'api_revenues_create', methods: ['POST'])]
+    public function create(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
         $revenue = new Revenue();
         $revenue->setValue($data['value']);
         $revenue->setDate(new \DateTime($data['date']));
+        $revenue->setType($data['type']);
 
-        $entityManager->persist($revenue);
-        $entityManager->flush();
+        $em->persist($revenue);
+        $em->flush();
 
         return $this->json($revenue, 201);
     }
 
     #[Route('/{id}', name: 'api_revenues_show', methods: ['GET'])]
-    public function show(Revenue $revenue): Response
+    public function show(Revenue $revenue): JsonResponse
     {
-        return $this->json($revenue, 200);
+        return $this->json($revenue);
     }
 
-    #[Route('/{id}', name: 'api_revenues_edit', methods: ['PUT'])]
-    public function update(Request $request, Revenue $revenue, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'api_revenues_update', methods: ['PUT'])]
+    public function update(Request $request, Revenue $revenue, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
         $revenue->setValue($data['value']);
         $revenue->setDate(new \DateTime($data['date']));
+        $revenue->setType($data['type']);
 
-        $entityManager->flush();
+        $em->flush();
 
-        return $this->json($revenue, 200);
+        return $this->json($revenue);
     }
 
     #[Route('/{id}', name: 'api_revenues_delete', methods: ['DELETE'])]
-    public function delete(Revenue $revenue, EntityManagerInterface $entityManager): Response
+    public function delete(Revenue $revenue, EntityManagerInterface $em): JsonResponse
     {
-        $entityManager->remove($revenue);
-        $entityManager->flush();
+        $em->remove($revenue);
+        $em->flush();
 
         return $this->json(null, 204); // No content
     }
