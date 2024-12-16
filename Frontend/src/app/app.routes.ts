@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { PersonaLayoutComponent } from './layout/persona-layout/persona-layout.component';
 import { LandingPageComponent } from './views/landing-page/landing-page.component';
 import { DashComponent } from './views/dash/dash.component';
+import { LoginComponent } from './views/login/login.component';
 
 export const routes: Routes = [
     /*{ path: 'dashboard', component: DashboardComponent },
@@ -23,7 +24,12 @@ export const routes: Routes = [
             {
                 path: 'dash',
                 component: DashComponent,
+            },
+            {
+                path: 'login',
+                component: LoginComponent
             }
+            
         ]
     }
 ];

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';  // If you want to navigate after succ
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
