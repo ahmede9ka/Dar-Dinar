@@ -1,81 +1,61 @@
 import { Component, inject } from '@angular/core';
-
-import { User } from '../../model/class/User';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { APILoginResponseModel } from '../../model/interface/API_Login';
-import { Router } from '@angular/router';  // If you want to navigate after successful login
-
-
+import { Router } from '@angular/router';  // Import Router for navigation
+import { User } from '../../model/class/User'; // Assuming you have a User class for typing
+import { APILoginResponseModel } from '../../model/interface/API_Login'; // For API response typing
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule,FormsModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  userObj: User = new User();
-  loginService = inject(AuthService);
-  router = inject(Router);  
-onSubmit() {
-  this.loginService.Login(this.userObj).subscribe({
-    next: (response: any) => {
-      if (response.user) {
-        if(response.role==="client"){
-          alert("Success! You are logged in.");
-          localStorage.setItem('client_id',response.id_role)
-          localStorage.setItem('user_id',response.user );
-          localStorage.setItem('token',response.token||"" );
-          localStorage.setItem('role',"client");
-          this.router.navigateByUrl('/');
-        }else{
-          alert("Access only for clients");
+  userObj: User = { username: '', password: '' }; // Initialize with empty user object
+  private authService = inject(AuthService); // Inject AuthService
+  private router = inject(Router); // Inject Router
+
+  constructor() {}
+
+  onSubmit() {
+    
+    this.authService.Login(this.userObj).subscribe({
+      next: (response: APILoginResponseModel) => {
+        console.log(response);
+        if (response.user) {
+          if (response.role === 'client') {
+            alert('Success! You are logged in.');
+            this.router.navigateByUrl('/'); // Navigate to the home page or dashboard
+          } else {
+            alert('Access only for clients');
+          }
+        } else if (response.errors) {
+          // Handle errors from response
+          const errorMessage = response.errors.password || response.errors.email || 'Login failed';
+          alert(errorMessage);
         }
-        
-      } else if (response.errors) {
-        // More specific error handling for errors in response
-        const errorMessage = 
-          response.errors.password || 
-          response.errors.email || 
-          'Login failed';
-        alert(errorMessage);
-      }
-    },
-    error: (httpError) => {
-       
-      // Handle HTTP errors returned from the server
-      if (httpError.error && typeof httpError.error === 'object') {
-        // Access the JSON error response
-        const errorResponse = httpError.error;
-        // General error message
-        const generalMessage = errorResponse.message || 'An unknown error occurred.';
-        // Access specific fields from the JSON, if available
-        const emailError = errorResponse.errors?.email;
-        const passwordError = errorResponse.errors?.password;
-        // Display error messages
-        let errorMessage = ``;
-        if (emailError) {
-          errorMessage += `Email Error: ${emailError}\n`;
+      },
+      error: (httpError) => {
+        // Handle HTTP errors
+        if (httpError.error && typeof httpError.error === 'object') {
+          const errorResponse = httpError.error;
+          const generalMessage = errorResponse.message || 'An unknown error occurred.';
+          const emailError = errorResponse.errors?.email;
+          const passwordError = errorResponse.errors?.password;
+          let errorMessage = '';
+          if (emailError) {
+            errorMessage += `Email Error: ${emailError}\n`;
+          }
+          if (passwordError) {
+            errorMessage += `Password Error: ${passwordError}\n`;
+          }
+          alert(errorMessage);
+        } else {
+          alert('Connection error. Please try again.');
         }
-        if (passwordError) {
-          errorMessage += `Password Error: ${passwordError}\n`;
-        }
-        alert(errorMessage);
-      } else {
-        // Handle non-JSON errors (e.g., connection failures)
-        alert('Connection error. Please try again.');
-      }
-
-    },
-  });
-}
-
-signin(): void {
-  this.router.navigate(['/signupclient']);
-}
-
-
+      },
+    });
+  }
 }

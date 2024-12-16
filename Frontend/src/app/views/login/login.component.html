@@ -9,7 +9,7 @@
             id="email"
             name="email"
             placeholder="test@atheros.ai"
-            [(ngModel)]="userObj.email"
+            [(ngModel)]="userObj.username"
           />
           <label for="password">Password</label>
           <input
@@ -23,7 +23,6 @@
             Sign In
           </button>
         </form>
-        <p>Don't have an account? <a  (click)="signin()">Sign Up Now</a></p>
       </div>
     </div>
     <div class="login-right">
