@@ -57,8 +57,9 @@ export class DashComponent implements OnInit {
           {
             label: 'Monthly Revenue',
             data: this.tabdata,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(255, 215, 0, 0.2)',  // Light gold with transparency
+            borderColor: 'rgba(255, 215, 0, 1)',  // Gold border color
+
             borderWidth: 1
           }
         ]
@@ -100,8 +101,9 @@ export class DashComponent implements OnInit {
         datasets: [
           {
             data: this.pieChartData, // Use pie chart specific data
-            backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple'],
-            hoverBackgroundColor: ['#ff0000', '#0000ff', '#ffff00', '#00ff00', '#800080']
+            backgroundColor:  ['#4CAF50', '#FFD700', '#1F2937', '#A5D6A7', '#FFEB3B'],
+            hoverBackgroundColor: ['#A5D6A7', '#FFEB8B', '#BCC6D3', '#A5D6A7', '#FFF59D'],
+
           }
         ]
       },
