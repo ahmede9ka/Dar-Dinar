@@ -1,15 +1,20 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dash',
+  imports: [MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule],
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
 export class DashComponent implements OnInit {
+  selectedDate: Date | undefined;
   labeldata: string[] = [
     'January', 'February', 'March', 'April', 'May', 
     'June', 'July', 'August', 'September', 'October', 
@@ -17,11 +22,17 @@ export class DashComponent implements OnInit {
   ];
   tabdata: number[] = [1000, 1500, 1200, 1800, 1300, 1700, 1600, 1900, 2200, 2100, 2400, 2300]; 
 
+  // Example Pie Chart Data
+  pieChartData: number[] = [300, 450, 120, 100, 250]; 
+  pieChartLabels: string[] = ['Red', 'Blue', 'Yellow', 'Green', 'Purple'];
+ 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
+    this.selectedDate = new Date();
     if (isPlatformBrowser(this.platformId)) {
-      this.initializeChart();
+      this.initializeChart();  // Bar Chart
+      this.initializeChart2(); // Pie Chart
     }
   }
 
@@ -63,6 +74,48 @@ export class DashComponent implements OnInit {
         scales: {
           y: {
             beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  initializeChart2(): void {
+    const canvasElement = document.getElementById('chart-pie') as HTMLCanvasElement;
+
+    if (!canvasElement) {
+      console.error('Canvas element with id "chart-pie" not found.');
+      return;
+    }
+
+    if (!this.pieChartData.length || !this.pieChartLabels.length) {
+      console.error('Pie chart labels or data are missing.');
+      return;
+    }
+
+    new Chart(canvasElement, {
+      type: 'pie', // Change to 'pie' for Pie chart
+      data: {
+        labels: this.pieChartLabels, // Use pie chart specific labels
+        datasets: [
+          {
+            data: this.pieChartData, // Use pie chart specific data
+            backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple'],
+            hoverBackgroundColor: ['#ff0000', '#0000ff', '#ffff00', '#00ff00', '#800080']
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 20
+            }
+          },
+          tooltip: {
+            enabled: true
           }
         }
       }

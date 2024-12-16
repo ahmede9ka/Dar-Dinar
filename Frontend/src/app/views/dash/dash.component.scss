@@ -35,4 +35,9 @@
     color: white;
     font-weight: bold;
   }
+  .chart-canvas {
+    width: 50% !important; /* Makes the canvas responsive */
+    height: 70%  !important; /* Set the desired height */
+  }
+  
   
