@@ -1,0 +1,35 @@
+<div class="login-container">
+    <div class="login-left">
+      <div class="form-box">
+        <h2>Marhba 7arif! 👋</h2>
+        <form #form="ngForm" method="POST">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="test@atheros.ai"
+            [(ngModel)]="userObj.email"
+          />
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="******"
+            [(ngModel)]="userObj.password"
+          />
+          <button type="submit" class="btn" (click)="onSubmit()">
+            Sign In
+          </button>
+        </form>
+        <p>Don't have an account? <a  (click)="signin()">Sign Up Now</a></p>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-info">
+        <img src="../../../../assets/logoWithName.png" alt="logo" />
+      </div>
+    </div>
+  </div>
+  
