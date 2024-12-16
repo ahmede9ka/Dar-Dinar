@@ -3,3 +3,33 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+api_masrouf_index:
+    path: /api/masrouf
+    controller: App\Controller\MasroufController::index
+    methods: [GET]
+
+api_masrouf_show:
+    path: /api/masrouf/{id}
+    controller: App\Controller\MasroufController::show
+    methods: [GET]
+
+api_masrouf_create:
+    path: /api/masrouf
+    controller: App\Controller\MasroufController::create
+    methods: [POST]
+
+api_masrouf_update:
+    path: /api/masrouf/{id}
+    controller: App\Controller\MasroufController::update
+    methods: [PUT]
+
+api_masrouf_delete:
+    path: /api/masrouf/{id}
+    controller: App\Controller\MasroufController::delete
+    methods: [DELETE]
+
+api_masrouf_monthly:
+    path: /api/month
+    controller: App\Controller\MasroufController::monthly
+    methods: [GET]

@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/advice')]
+#[Route('')]
 final class AdviceController extends AbstractController
 {
-    #[Route('/', name: 'api_advice_index', methods: ['GET'])]
+    #[Route('/api/advice', name: 'api_advice_index', methods: ['GET'])]
     public function index(AdviceRepository $adviceRepository): JsonResponse
     {
         $adviceList = $adviceRepository->findAll();
@@ -28,7 +28,7 @@ final class AdviceController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/new', name: 'api_advice_new', methods: ['POST'])]
+    #[Route('/api/advice/new', name: 'api_advice_new', methods: ['POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -46,7 +46,7 @@ final class AdviceController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'api_advice_show', methods: ['GET'])]
+    #[Route('/api/advice/{id}', name: 'api_advice_show', methods: ['GET'])]
     public function show(Advice $advice): JsonResponse
     {
         return $this->json([
@@ -56,7 +56,7 @@ final class AdviceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'api_advice_edit', methods: ['PUT', 'PATCH'])]
+    #[Route('/api/advice/{id}/edit', name: 'api_advice_edit', methods: ['PUT', 'PATCH'])]
     public function edit(Request $request, Advice $advice, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -73,7 +73,7 @@ final class AdviceController extends AbstractController
         return $this->json(['status' => 'Advice updated']);
     }
 
-    #[Route('/{id}', name: 'api_advice_delete', methods: ['DELETE'])]
+    #[Route('/api/advice/{id}', name: 'api_advice_delete', methods: ['DELETE'])]
     public function delete(Advice $advice, EntityManagerInterface $entityManager): JsonResponse
     {
         $entityManager->remove($advice);
@@ -81,4 +81,29 @@ final class AdviceController extends AbstractController
 
         return $this->json(['status' => 'Advice deleted']);
     }
+
+    #[Route('/api/random', name: 'api_advice_random', methods: ['GET'])]
+    public function random(EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Get the Advice repository
+        $adviceRepository = $entityManager->getRepository(Advice::class);
+
+        // Generate a random ID between 1 and 75
+        $randomId = rand(1, 75);
+
+        // Find the advice by random ID
+        $advice = $adviceRepository->find($randomId);
+
+        if (!$advice) {
+            return $this->json(['status' => false, 'message' => 'Advice not found'], 404);
+        }
+
+        // Return the advice details as JSON
+        return $this->json([
+            'id' => $advice->getId(),
+            'type' => $advice->getType(),
+            'message' => $advice->getMessage(),
+        ]);
+    }
+
 }

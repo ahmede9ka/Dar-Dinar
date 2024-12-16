@@ -6,6 +6,13 @@
 parameters:
 
 services:
+    App\Security\ApiAuthenticationHandlerAuthenticator:
+        public: true
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+    App\Controller\MasroufController:
+        arguments:
+            - '@doctrine.dbal.default_connection'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
