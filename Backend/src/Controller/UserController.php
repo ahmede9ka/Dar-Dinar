@@ -17,6 +17,9 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
+    
+
+
     #[Route('/register', name: 'register', methods: ['POST'])]
 public function register(
     Request $request,
@@ -92,14 +95,13 @@ public function register(
         if (!$passwordHasher->isPasswordValid($user, $data['password'])) {
             return new JsonResponse(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
-
+        //$apiToken = $this->tokenGenerator->generateToken();
         // Generate a response or token (if you have a token mechanism)
         return new JsonResponse(['message' => 'Login successful'], Response::HTTP_OK);
     }
-    #[Route('/logout', name: 'logout', methods: ['POST'])]
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(Request $request, TokenStorageInterface $tokenStorage): Response
     {
-        $tokenStorage->setToken(null); // Clear the authentication token
 
         return new Response('Logout successful', Response::HTTP_OK);
     }

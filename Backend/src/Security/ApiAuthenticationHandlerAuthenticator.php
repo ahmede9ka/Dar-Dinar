@@ -23,6 +23,7 @@ class ApiAuthenticationHandlerAuthenticator extends AbstractAuthenticator
      */
     public function supports(Request $request): ?bool
     {
+        
         // Here, we check if the request contains the required authentication token.
         return $request->headers->has('Authorization') && strpos($request->headers->get('Authorization'), 'Bearer ') === 0;
     }
@@ -35,7 +36,7 @@ class ApiAuthenticationHandlerAuthenticator extends AbstractAuthenticator
         // Extract the API token from the Authorization header.
         $authorizationHeader = $request->headers->get('Authorization');
         $apiToken = substr($authorizationHeader, 7); // Remove "Bearer " prefix.
-
+        dump($apiToken);
         if (null === $apiToken) {
             throw new CustomUserMessageAuthenticationException('No API token provided');
         }

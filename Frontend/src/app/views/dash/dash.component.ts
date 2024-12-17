@@ -5,6 +5,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MasroufService } from '../../services/masrouf.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 Chart.register(...registerables);
 
 @Component({
@@ -25,8 +28,8 @@ export class DashComponent implements OnInit {
   // Example Pie Chart Data
   pieChartData: number[] = [300, 450, 120, 100, 250]; 
   pieChartLabels: string[] = ['Red', 'Blue', 'Yellow', 'Green', 'Purple'];
- 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  masroufmonth:any;
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,private masroufservice:MasroufService,private authservice:AuthService,private router:Router) {}
 
   ngOnInit(): void {
     this.selectedDate = new Date();
@@ -34,6 +37,18 @@ export class DashComponent implements OnInit {
       this.initializeChart();  // Bar Chart
       this.initializeChart2(); // Pie Chart
     }
+    this.authservice.current().subscribe((data:any)=>{
+      console.log(data);
+    })
+    this.masroufservice.getAllMasroufMonth().subscribe((data:any)=>{
+      console.log(data);
+      this.masroufmonth = data[0].total_value;
+    })
+  } 
+  logout(): void {
+    
+    this.router.navigate(['/login']);
+
   }
 
   initializeChart(): void {

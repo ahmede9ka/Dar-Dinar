@@ -13,51 +13,27 @@ import { APILoginResponseModel } from '../../model/interface/API_Login'; // For 
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-signin() {
-throw new Error('Method not implemented.');
-}
-  userObj: User = { username: '', password: '' }; // Initialize with empty user object
+  userObj: User = { email: '', password: '' }; // Initialize with empty user object
   private authService = inject(AuthService); // Inject AuthService
   private router = inject(Router); // Inject Router
 
   constructor() {}
 
   onSubmit() {
-    
     this.authService.Login(this.userObj).subscribe({
-      next: (response: APILoginResponseModel) => {
+      next: (response: any) => {
         console.log(response);
-        if (response.user) {
-          if (response.role === 'client') {
-            alert('Success! You are logged in.');
-            this.router.navigateByUrl('/'); // Navigate to the home page or dashboard
-          } else {
-            alert('Access only for clients');
-          }
-        } else if (response.errors) {
-          // Handle errors from response
-          const errorMessage = response.errors.password || response.errors.email || 'Login failed';
-          alert(errorMessage);
-        }
+        // Store the API token in local storage
+        localStorage.setItem('apiToken', response.api_token);
+        // Optionally fetch user data and redirect
+        this.authService.current().subscribe((data: any) => {
+          console.log(data);
+          this.router.navigate(['/dashboard']); // Redirect to dashboard after successful login
+        });
       },
       error: (httpError) => {
         // Handle HTTP errors
-        if (httpError.error && typeof httpError.error === 'object') {
-          const errorResponse = httpError.error;
-          const generalMessage = errorResponse.message || 'An unknown error occurred.';
-          const emailError = errorResponse.errors?.email;
-          const passwordError = errorResponse.errors?.password;
-          let errorMessage = '';
-          if (emailError) {
-            errorMessage += `Email Error: ${emailError}\n`;
-          }
-          if (passwordError) {
-            errorMessage += `Password Error: ${passwordError}\n`;
-          }
-          alert(errorMessage);
-        } else {
-          alert('Connection error. Please try again.');
-        }
+        alert('Login failed: ' + httpError.message || httpError); // Show user-friendly error message
       },
     });
   }

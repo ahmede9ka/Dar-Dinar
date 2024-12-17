@@ -14,13 +14,13 @@ export class RevenueService {
     getRevenueById(id:any): Observable<any> {
       return this.http.get<any>(`http://localhost:8000/api/revenues/${id}`);
     }
-    createGoal(data:any): Observable<any> {
+    createRevenue(data:any): Observable<any> {
       return this.http.post<any>(`http://localhost:8000/api/revenues`,data);
     }
-    updateGoal(id:any,data:any): Observable<any> {
+    updateRevenue(id:any,data:any): Observable<any> {
       return this.http.put<any>(`http://localhost:8000/api/revenues/${id}`,data);
     }
-    deleteGoal(id:any): Observable<any> {
+    deleteRevenue(id:any): Observable<any> {
       return this.http.delete<any>(`http://localhost:8000/api/revenues/${id}`);
     }
   getMonthlyRevenue(): Observable<any> {
