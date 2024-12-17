@@ -18,31 +18,57 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class UserController extends AbstractController
 {
     #[Route('/register', name: 'register', methods: ['POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager): Response
-    {
-        $data = json_decode($request->getContent(), true);
+public function register(
+    Request $request,
+    UserPasswordHasherInterface $passwordHasher,
+    EntityManagerInterface $entityManager
+): Response {
+    $data = $request->request->all();
+    $file = $request->files->get('img'); // Retrieve the uploaded file
 
-        if (!isset($data['email'], $data['username'], $data['password'])) {
-            return new Response('Invalid data', Response::HTTP_BAD_REQUEST);
-        }
-
-        $user = new User();
-        $user->setEmail($data['email']);
-        $user->setUsername($data['username']);
-
-        // Use the password hasher instead of the old encoder
-        $hashedPassword = $passwordHasher->hashPassword($user, $data['password']);
-        $user->setPassword($hashedPassword);
-
-        $user->setIsVerified(false); // Adjust this as per your logic
-
-        // Persist the user to the database
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return new Response('User registered successfully', Response::HTTP_CREATED);
+    // Validate required fields
+    if (!isset($data['email'], $data['username'], $data['password'], $data['date'], $data['sex']) || !$file) {
+        return new JsonResponse(['error' => 'Invalid data or missing image'], Response::HTTP_BAD_REQUEST);
     }
+
+    // Validate the provided date
+    try {
+        $providedDate = new \DateTime($data['date']); // Convert the provided date to a DateTime object
+    } catch (\Exception $e) {
+        return new JsonResponse(['error' => 'Invalid date format'], Response::HTTP_BAD_REQUEST);
+    }
+
+    // Check if user already exists
+    $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+    if ($existingUser) {
+        return new JsonResponse(['error' => 'Email is already in use'], Response::HTTP_CONFLICT);
+    }
+
+    // Handle file upload
+    $uploadsDir = $this->getParameter('uploads_directory'); // Define this parameter in your config/services.yaml
+    $fileName = uniqid() . '.' . $file->guessExtension();
+    $file->move($uploadsDir, $fileName);
+
+    $user = new User();
+    $user->setEmail($data['email']);
+    $user->setUsername($data['username']);
+    $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
+    $user->setIsVerified(false); // Adjust this if needed
+    $user->setImg($fileName); // Store the image file name
+    $user->setSex($data['sex']); // Store the sex value
+
+    // Use the setDate method to set the provided date
+    $user->setDate($providedDate);
+
+    // Persist user to the database
+    $entityManager->persist($user);
+    $entityManager->flush();
+
+    return new JsonResponse(['message' => 'User registered successfully'], Response::HTTP_CREATED);
+}
+
+
+
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(
         Request $request,
@@ -52,12 +78,12 @@ class UserController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         // Check if required fields are provided
-        if (!isset($data['username'], $data['password'])) {
+        if (!isset($data['email'], $data['password'])) {
             return new JsonResponse(['error' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         }
 
         // Find the user by username
-        $user = $userRepository->findOneBy(['username' => $data['username']]);
+        $user = $userRepository->findOneBy(['email' => $data['email']]);
         if (!$user) {
             return new JsonResponse(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }

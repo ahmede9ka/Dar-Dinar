@@ -11,10 +11,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Doctrine\DBAL\Connection;
 #[Route('')]
 final class AdviceController extends AbstractController
 {
+    private $connection;
+
+    public function __construct(Connection $connection)
+    {
+
+        $this->connection = $connection;
+    }
     #[Route('/api/advice', name: 'api_advice_index', methods: ['GET'])]
     public function index(AdviceRepository $adviceRepository): JsonResponse
     {
@@ -106,4 +113,20 @@ final class AdviceController extends AbstractController
         ]);
     }
 
+    #[Route('/api/getAlltypes', name: 'api_advice_random', methods: ['GET'])]
+public function getAlltypes(EntityManagerInterface $entityManager): JsonResponse
+{
+    // Query to fetch distinct types from the Advice entity
+    $query = $this->connection->fetchAllAssociative(
+        'SELECT DISTINCT a.type 
+         FROM advice a'
+    );
+
+    
+
+    // Extracting the 'type' field values into a flat array
+    $types = array_map(fn($item) => $item['type'], $query);
+   
+    return new JsonResponse($types, Response::HTTP_OK);
+}
 }

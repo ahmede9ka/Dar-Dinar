@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
-class User implements UserInterface,PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,7 +27,16 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
-    private ?bool $isVerified = false;
+    private bool $isVerified = false;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $img = null;
+
+    #[ORM\Column(type: 'string', length: 10, nullable: true)] // Correcting the 'sex' property
+    private ?string $sex = null; // Declare the 'sex' property
 
     public function getId(): ?int
     {
@@ -70,7 +79,7 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsVerified(): ?bool
+    public function isVerified(): bool
     {
         return $this->isVerified;
     }
@@ -78,6 +87,30 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }
@@ -90,11 +123,24 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-
+        // Clear sensitive temporary data if needed
     }
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        // Use username as the user identifier
+        return $this->email;
+    }
+
+    public function getSex(): ?string
+    {
+        return $this->sex;
+    }
+
+    public function setSex(?string $sex): self
+    {
+        $this->sex = $sex;
+
+        return $this;
     }
 }

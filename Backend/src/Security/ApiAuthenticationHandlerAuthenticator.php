@@ -43,12 +43,12 @@ class ApiAuthenticationHandlerAuthenticator extends AbstractAuthenticator
         // Here, you would look up the user based on the API token.
         // For example, fetching the user from the database.
         $user = $this->findUserByToken($apiToken);
-
+        
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('Invalid API token');
         }
 
-        return new SelfValidatingPassport(new UserBadge($user->getUsername())); // Authenticate with user badge.
+        return new SelfValidatingPassport(new UserBadge($user->getEmail())); // Authenticate with user badge.
     }
 
     /**
