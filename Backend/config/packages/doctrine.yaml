@@ -6,10 +6,10 @@ doctrine:
                 default:
                     driver: pdo_mysql
                     host: 127.0.0.1
-                    port: 3308
+                    port: 3306
                     dbname: symfony
                     user: root
-                    password:
+                    password: letmein
                     charset: utf8mb4
 
 
