@@ -1,6 +1,6 @@
 # Dar Dinar
 <div align="center">
-    <img src="frontend/public/image.png" alt="Logo" width="100%" height="100%">
+    <img src="Frontend/public/image.png" alt="Logo" width="100%" height="100%">
 </div>
 **Dar Dinar** is a financial management application specifically designed for Tunisian users. It aims to simplify budgeting, tracking expenses, and managing finances through a user-friendly interface. Whether you're an individual or a small business, Dar Dinar provides the tools you need to make informed financial decisions and gain better control over your finances.
 
