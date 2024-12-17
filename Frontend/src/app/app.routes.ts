@@ -4,6 +4,10 @@ import { PersonaLayoutComponent } from './layout/persona-layout/persona-layout.c
 import { LandingPageComponent } from './views/landing-page/landing-page.component';
 import { DashComponent } from './views/dash/dash.component';
 import { LoginComponent } from './views/login/login.component';
+import { MasarifComponent } from './views/masarif/masarif.component';
+import { Mada5ilComponent } from './views/mada5il/mada5il.component';
+import { ProfileComponent } from './views/profile/profile.component';
+import { GoalsComponent } from './views/goals/goals.component';
 
 export const routes: Routes = [
     /*{ path: 'dashboard', component: DashboardComponent },
@@ -22,13 +26,29 @@ export const routes: Routes = [
             },
             
             {
-                path: 'dash',
+                path: 'dashboard',
                 component: DashComponent,
             },
             {
                 path: 'login',
                 component: LoginComponent
-            }
+            },
+            {
+                path:'masarif',
+                component:MasarifComponent
+            },
+            {
+                path:'mada5il',
+                component:Mada5ilComponent
+            },
+            {
+                path:'profile',
+                component:ProfileComponent
+            },
+            {
+                path:'goals',
+                component:GoalsComponent
+            },
             
         ]
     }

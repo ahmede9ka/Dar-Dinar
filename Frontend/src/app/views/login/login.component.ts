@@ -13,6 +13,9 @@ import { APILoginResponseModel } from '../../model/interface/API_Login'; // For 
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+signin() {
+throw new Error('Method not implemented.');
+}
   userObj: User = { username: '', password: '' }; // Initialize with empty user object
   private authService = inject(AuthService); // Inject AuthService
   private router = inject(Router); // Inject Router

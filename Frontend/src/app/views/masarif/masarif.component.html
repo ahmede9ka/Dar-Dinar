@@ -124,109 +124,100 @@
     </div>
   </aside>
   
-  <main class="ml-64 pt-7"> <!-- Add ml-64 to create space for the fixed sidebar -->
-    <div class="container mx-auto p-6">
-      <div class="container mx-auto p-6">
-        <!-- Row 1: Cards and Pie Chart -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
-          <!-- Cards Section takes 65% of the row (3 out of 5 columns) -->
-          <div class="col-span-3 grid grid-cols-2 gap-4">
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 1</h3>
-              <p>Content for Card 1.</p>
-            </div>
+  <main class="ml-64">
+    <div class="p-6">
+        <!-- Title -->
+        <h1 class="text-3xl font-bold mb-4">Masarif Table</h1>
       
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 2</h3>
-              <p>Content for Card 2.</p>
-            </div>
+        <!-- Table -->
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+              <tr>
+                <th class="px-6 py-3">Quantity</th>
+                <th class="px-6 py-3">Date</th>
+                <th class="px-6 py-3">Type</th>
+                <th class="px-6 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of masarif" class="bg-white border-b">
+                <td class="px-6 py-4">{{ item.quantity }}</td>
+                <td class="px-6 py-4">{{ item.date }}</td>
+                <td class="px-6 py-4">{{ item.type }}</td>
+                <td class="px-6 py-4">
+                  <button
+                    (click)="deleteMasarif(item.id)"
+                    class="text-red-500 hover:underline me-4"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 3</h3>
-              <p>Content for Card 3.</p>
-            </div>
+        <!-- Add Button -->
+        <button
+          (click)="openModal()"
+          class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          Add Masarif
+        </button>
       
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 4</h3>
-              <p>Content for Card 4.</p>
+        <!-- Modal -->
+        <div
+          *ngIf="showModal"
+          class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-2xl font-bold mb-4">Add Masarif</h2>
+            <label class="block mb-2">Quantity</label>
+            <input
+              type="number"
+              [(ngModel)]="newMasarif.quantity"
+              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+      
+            <label class="block mb-2">Date</label>
+            <input
+              type="date"
+              [(ngModel)]="newMasarif.date"
+              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+      
+            <label class="block mb-2">Type</label>
+            <input
+              type="text"
+              [(ngModel)]="newMasarif.type"
+              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+      
+            <div class="flex justify-end">
+              <button
+                (click)="closeModal()"
+                class="px-4 py-2 text-gray-600 hover:text-gray-800 me-2"
+              >
+                Cancel
+              </button>
+              <button
+                (click)="addMasarif()"
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Add
+              </button>
             </div>
           </div>
+        </div>
       
-          <!-- Pie Chart Section takes 35% of the row (2 out of 5 columns) -->
-          <div class="col-span-2 bg-white shadow-lg p-6 rounded-lg">
-            <h3 class="text-xl font-semibold">Pie Chart</h3>
-            <canvas id="chart-pie" class="chart-canvas"></canvas>
-          </div>
+        <!-- Success Message -->
+        <div
+          *ngIf="showSuccess"
+          class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg"
+        >
+          🎉 Masarif Added Successfully!
         </div>
       </div>
       
-  
-      <!-- Row 2: Progress Bars and Calendar -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-  <!-- Progress Bars Section takes 75% of the row (3 out of 4 columns) -->
-  <div class="progress-bars col-span-3 grid grid-cols-1 gap-6">
-    
-    <!-- Progress Bar 1 -->
-    <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-      <div class="flex-1">
-        <label class="text-lg font-semibold text-gray-700 mb-2">Progress Bar 1</label>
-        <progress class="progress w-full h-2 rounded-full bg-[#4CAF50]" value="60" max="100"></progress> <!-- Green -->
-      </div>
-      <span class="text-lg font-semibold text-[#4CAF50]">60%</span> <!-- Green -->
-    </div>
-
-    <!-- Progress Bar 2 -->
-    <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-      <div class="flex-1">
-        <label class="text-lg font-semibold text-gray-700 mb-2">Progress Bar 2</label>
-        <progress class="progress w-full h-2 rounded-full bg-[#FFD700]" value="40" max="100"></progress> <!-- Gold -->
-      </div>
-      <span class="text-lg font-semibold text-[#FFD700]">40%</span> <!-- Gold -->
-    </div>
-
-    <!-- Progress Bar 3 -->
-    <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-      <div class="flex-1">
-        <label class="text-lg font-semibold text-gray-700 mb-2">Progress Bar 3</label>
-        <progress class="progress w-full h-2 rounded-full bg-[#4CAF50]" value="80" max="100"></progress> <!-- Green -->
-      </div>
-      <span class="text-lg font-semibold text-[#4CAF50]">80%</span> <!-- Green -->
-    </div>
-  </div>
-
-  <!-- Calendar Section takes 25% of the row (1 out of 4 columns) -->
-  <div class="calendar col-span-1 bg-white shadow-lg p-6 rounded-lg">
-    <h3 class="text-xl font-semibold text-[#4CAF50]">Calendar</h3> <!-- Green -->
-    <mat-calendar [(selected)]="selectedDate" [selected]="selectedDate"></mat-calendar>
-  </div>
-</div>
-
-      
-  
-      <!-- Row 3: Bar Chart and Card -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-  <!-- Bar Chart Section takes 75% of the row (3 out of 4 columns) -->
-  <div class="chart col-span-3 bg-white shadow-lg p-6 rounded-lg">
-    <h3 class="text-xl font-semibold">Bar Chart</h3>
-    <div class="p-4"> <!-- Set height to 50% -->
-      <div class="chart">
-        <canvas id="chart-line" class="chart-canvas2 " ></canvas> <!-- h-full makes the canvas take the full height of its parent -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Advice Section takes 25% of the row (1 out of 4 columns) -->
-  <div class="card col-span-1 bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-    <div class="left-content">
-      <h3 class="text-xl font-semibold">Advice Title</h3>
-      <p class="text-gray-700 mt-2">Here is the advice content. It provides useful insights or suggestions.</p>
-    </div>
-    <div class="mascotte">
-      <img src="mascotte-image-url.jpg" alt="Mascot" class="w-16 h-16 rounded-full object-cover">
-    </div>
-  </div>
-</div>
-    </div>
-
   </main>
-  
