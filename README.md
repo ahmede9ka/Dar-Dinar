@@ -15,12 +15,22 @@
 
 ## Installation
 
-### Prerequisites
+# Project Name
+
+## Prerequisites
+
 ### Backend
 
 ![Symfony](https://img.shields.io/badge/Symfony-3C9EE7?logo=symfony&logoColor=white&style=flat-square)  
 - **Symfony**: A powerful PHP framework for building scalable and secure web applications.
 
+### Frontend
+
+![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white&style=flat-square)  
+- **Angular**: A TypeScript-based framework for building dynamic and robust web applications.
+
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=white&style=flat-square)  
+- **Tailwind CSS**: A utility-first CSS framework for quickly designing custom user interfaces.
 
 ### Database
 
@@ -34,3 +44,34 @@
 
 ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=flat-square)  
 - **Git**: A version control system for tracking changes and collaborating with other developers.
+
+---
+
+## How to Run the Project
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+2.Install backend dependencies:
+
+    composer install
+3.Set up the database:
+
+    Create a .env file with the required database credentials.
+    Run migrations:
+    php bin/console doctrine:migrations:migrate
+4.Install frontend dependencies:
+
+    npm install
+5.Start the development server:
+
+    ng serve
+6.Access the application:
+
+    Backend: http://localhost:8000
+    Frontend: http://localhost:4200
+
+Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
+
