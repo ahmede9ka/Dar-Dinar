@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SideBarComponent } from "../side-bar/side-bar.component";
 
 interface MasarifItem {
   id: number;
@@ -11,7 +12,7 @@ interface MasarifItem {
 @Component({
   selector: 'app-masarif',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, SideBarComponent],
   templateUrl: './masarif.component.html',
   styleUrl: './masarif.component.scss'
 })

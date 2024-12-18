@@ -8,11 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MasroufService } from '../../services/masrouf.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { SideBarComponent } from "../side-bar/side-bar.component";
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-dash',
-  imports: [MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule],
+  imports: [MatDatepickerModule, MatNativeDateModule, MatFormFieldModule, MatInputModule, SideBarComponent],
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
