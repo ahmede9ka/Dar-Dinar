@@ -13,9 +13,6 @@
 - 🔒 **Secure Authentication**: Ensure your financial data is safe with secure user authentication and encrypted data storage.
 - 🇹🇳 **Localized for Tunisia**: Tailored specifically to Tunisian financial contexts, including local currencies and financial regulations.
 
-## Installation
-
-# Project Name
 
 ## Prerequisites
 
