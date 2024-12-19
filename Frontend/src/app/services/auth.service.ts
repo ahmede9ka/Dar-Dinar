@@ -23,7 +23,8 @@ export class AuthService {
     });
     return this.http.post<any>(
       `${this.baseUrl}/login`,
-      user
+      user,
+      { withCredentials: true }
     );
   }
 
