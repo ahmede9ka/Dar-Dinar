@@ -126,61 +126,88 @@ class GoalsController extends AbstractController
         return $this->json(['message' => 'Goal deleted successfully'], 200);
     }
 
-    #[Route('/api/zidflouslelgoal/{id}', name: 'api_zid_flous_goal', methods: ['GET'])]
-    public function zidFlousLelGoal(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator,#[CurrentUser] ?User $user): JsonResponse
-    {
-        // Extract ID from route parameter
-        $id = $request->get('id');
-        $goal = $entityManager->find(Goals::class, $id);
+    #[Route('/api/zidflouslelgoal/{id}', name: 'api_zid_flous_goal', methods: ['POST'])]
+public function zidFlousLelGoal(
+    Request $request,
+    EntityManagerInterface $entityManager,
+    ValidatorInterface $validator,
+    #[CurrentUser] ?User $user
+): JsonResponse {
+    $id = $request->get('id');
+    $goal = $entityManager->find(Goals::class, $id);
 
-        if (!$goal) {
-            return $this->json(['status' => false, 'message' => 'Goal not found'], 404);
-        }
+    if (!$goal) {
+        return $this->json(['status' => false, 'message' => 'Goal not found'], 404);
+    }
 
-        $data = json_decode($request->getContent(), true);
-        if (!isset($data['zyeda'])) {
-            return $this->json(['status' => false, 'message' => 'Missing "zyeda" parameter'], 400);
-        }
+    $data = json_decode($request->getContent(), true);
 
-        $output = $this->masroufContoller->getAllMasrouf();
-        $input = $this->revenueController->getAllRevenue();
-        $somme = json_decode($input->getContent(), true)[0]['total_value'] - json_decode($output->getContent(), true)[0]['total_value'];
+    if (!is_array($data) || !isset($data['zyeda'])) {
+        return $this->json(['status' => false, 'message' => 'Missing or invalid "zyeda" parameter'], 400);
+    }
 
-        $zyeda = (float) $data['zyeda'];
+    $zyeda = (float) $data['zyeda'];
 
-        // Adjust 'zyeda' if it exceeds the remaining desired amount
+    try {
+        $output = $this->masroufContoller->getAllMasrouf($user);
+        $input = $this->revenueController->getAllRevenue($user);
+
+        $inputData = json_decode($input->getContent(), true);
+        $outputData = json_decode($output->getContent(), true);
+
+        $inputTotal = isset($inputData[0]['total_value']) ? (float) $inputData[0]['total_value'] : 0;
+        $outputTotal = isset($outputData[0]['total_value']) ? (float) $outputData[0]['total_value'] : 0;
+
+        $availableFunds = $inputTotal - $outputTotal;
+        //dd($availableFunds);
+        //dd($availableFunds);
+        // Ensure `zyeda` does not exceed the remaining amount for the goal
         if ($zyeda + $goal->getActualSum() > $goal->getDesiredSum()) {
             $zyeda = $goal->getDesiredSum() - $goal->getActualSum();
         }
-        $data['value'] = $zyeda;
-        $data['date'] = (new \DateTime())->format('Y-m-d H:i:s');
-        $data['type'] = "goal";
-        $data['goal'] = $goal->getGoal();
-        $data['desiredSum'] = $goal->getDesiredSum();
-        $data['actualSum'] = $goal->getDesiredSum();
-        $data['reached'] = true;
-// Create a new request with updated JSON body
-        $newRequest = new Request(
-            $request->query->all(),
-            [], // POST/form data
-            $request->attributes->all(),
-            $request->cookies->all(),
-            $request->files->all(),
-            $request->server->all(),
-            json_encode($data) // Pass updated JSON body as the content
-        );
 
-        if ($zyeda <= $somme) {
-
-            $this->masroufContoller->create($newRequest, $entityManager, $validator); // Ensure proper arguments for the update method
-            if($zyeda + $goal->getActualSum() == $goal->getDesiredSum()){
-                $this->update($newRequest,$goal,$entityManager, $validator,$user);
-            }
-            return $this->json(["status" => true], 200);
+        if ($zyeda <= 0) {
+            return $this->json(['status' => false, 'message' => 'Invalid amount for "zyeda"'], 400);
         }
 
-        return $this->json(['status' => false, 'message' => 'too much zyeda'], 500);
+        if ($zyeda <= $availableFunds) {
+            $goal->setActualSum($goal->getActualSum() + $zyeda);
+
+            $entityManager->persist($goal);
+            $entityManager->flush();
+
+            $data = [
+                'value' => $zyeda,
+                'date' => (new \DateTime())->format('Y-m-d H:i:s'),
+                'type' => 'goal',
+                'goal' => $goal->getGoal(),
+                'desiredSum' => $goal->getDesiredSum(),
+                'actualSum' => $goal->getActualSum(),
+                'reached' => $goal->getActualSum() === $goal->getDesiredSum(),
+            ];
+
+            // Create a new request object for the `masroufController`
+            $newRequest = new Request(
+                $request->query->all(),
+                $request->request->all(),
+                $request->attributes->all(),
+                $request->cookies->all(),
+                $request->files->all(),
+                $request->server->all(),
+                json_encode($data)
+            );
+
+            $this->masroufContoller->create($newRequest, $entityManager, $validator,$user);
+
+            return $this->json(['status' => true], 200);
+        } else {
+            return $this->json(['status' => false, 'message' => 'Insufficient funds'], 400);
+        }
+    } catch (\Exception $e) {
+        return $this->json(['status' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
     }
+}
+
 
 
 

@@ -36,7 +36,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $img = null;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)] // Correcting the 'sex' property
-    private ?string $sex = null; // Declare the 'sex' property
+    private ?string $sex = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apiToken = null; // Declare the 'sex' property
 
     public function getId(): ?int
     {
@@ -140,6 +143,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSex(?string $sex): self
     {
         $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(?string $apiToken): static
+    {
+        $this->apiToken = $apiToken;
 
         return $this;
     }

@@ -3,43 +3,75 @@
   <main class="ml-64">
     <div class="p-6">
         <!-- Title -->
-        <h1 class="text-3xl font-bold mb-4">Masarif Table</h1>
-      
+        <h1 class="text-3xl font-bold mb-4">Goals Table</h1>
+        <h2>Elli 3andek:{{output-input}}$</h2>
         <!-- Table -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th class="px-6 py-3">Quantity</th>
-                <th class="px-6 py-3">Date</th>
-                <th class="px-6 py-3">Type</th>
+                <th class="px-6 py-3">Goal</th>
+                <th class="px-6 py-3">DesiredSum</th>
+                <th class="px-6 py-3">ActualSum</th>
+                <th class="px-6 py-3">Reached</th>
                 <th class="px-6 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of masarif" class="bg-white border-b">
-                <td class="px-6 py-4">{{ item.quantity }}</td>
-                <td class="px-6 py-4">{{ item.date }}</td>
-                <td class="px-6 py-4">{{ item.type }}</td>
+              <tr *ngFor="let item of goals" class="bg-white border-b">
+                <td class="px-6 py-4">{{ item.goal }}</td>
+                <td class="px-6 py-4">{{ item.desiredSum }}</td>
+                <td class="px-6 py-4">{{ item.actualSum }}</td>
                 <td class="px-6 py-4">
-                  <button
-                    (click)="deleteMasarif(item.id)"
-                    class="text-red-500 hover:underline me-4"
-                  >
-                    Delete
-                  </button>
+                  {{item.reached}}
+                </td>
+                <td class="px-6 py-4">
+                  <button (click)="openModalZid(item.id)">Zid flous</button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       
+
+        <!-- Modal -->
+        <div
+          *ngIf="showModalzid"
+          class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-2xl font-bold mb-4">Zid flous</h2>
+            <label class="block mb-2">Zid</label>
+            <input
+              type="number"
+              [(ngModel)]="zyeda"
+              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+            <div class="flex justify-end">
+              <button
+                (click)="closeModalzid()"
+                class="px-4 py-2 text-gray-600 hover:text-gray-800 me-2"
+              >
+                Cancel
+              </button>
+              <button
+                (click)="zid()"
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+
         <!-- Add Button -->
         <button
           (click)="openModal()"
           class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         >
-          Add Masarif
+          Add Goal
         </button>
       
         <!-- Modal -->
@@ -48,27 +80,22 @@
           class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
         >
           <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 class="text-2xl font-bold mb-4">Add Masarif</h2>
-            <label class="block mb-2">Quantity</label>
+            <h2 class="text-2xl font-bold mb-4">Add Goal</h2>
+            <label class="block mb-2">Goal</label>
+            <input
+              type="string"
+              [(ngModel)]="newMasarif.goal"
+              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+      
+            <label class="block mb-2">Desired Sum</label>
             <input
               type="number"
-              [(ngModel)]="newMasarif.quantity"
+              [(ngModel)]="newMasarif.desiredsum"
               class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
             />
       
-            <label class="block mb-2">Date</label>
-            <input
-              type="date"
-              [(ngModel)]="newMasarif.date"
-              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
-            />
-      
-            <label class="block mb-2">Type</label>
-            <input
-              type="text"
-              [(ngModel)]="newMasarif.type"
-              class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
-            />
+            
       
             <div class="flex justify-end">
               <button
@@ -78,7 +105,7 @@
                 Cancel
               </button>
               <button
-                (click)="addMasarif()"
+                (click)="addGoal()"
                 class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
               >
                 Add

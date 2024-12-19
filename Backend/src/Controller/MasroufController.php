@@ -253,7 +253,7 @@ class MasroufController extends AbstractController
 
             $result = $this->connection->fetchAllAssociative('SELECT 
                 SUM(m.value) AS total_value
-            FROM masrouf m AND m.user_id=:user',['user'=>$user->getId()]);
+            FROM masrouf m WHERE m.user_id=:user',['user'=>$user->getId()]);
 
             $totalValue = $result;
 

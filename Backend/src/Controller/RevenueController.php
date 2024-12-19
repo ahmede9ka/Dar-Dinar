@@ -157,7 +157,7 @@ class RevenueController extends AbstractController
 
             $result = $this->connection->fetchAllAssociative('SELECT 
                 SUM(m.value) AS total_value
-            FROM revenue m AND m.user_id=:user', ['user'=>$user->getId()]);
+            FROM revenue m WHERE m.user_id=:user', ['user'=>$user->getId()]);
 
             $totalValue = $result;
 

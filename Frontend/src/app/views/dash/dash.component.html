@@ -1,116 +1,105 @@
 <app-side-bar></app-side-bar>
-  <main class="ml-64 pt-7"> <!-- Add ml-64 to create space for the fixed sidebar -->
+<main class="ml-64 pt-7"> <!-- Add ml-64 to create space for the fixed sidebar -->
     
+  <div class="container mx-auto p-6">
     <div class="container mx-auto p-6">
-      <div class="container mx-auto p-6">
-        <!-- Row 1: Cards and Pie Chart -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
-          <!-- Cards Section takes 65% of the row (3 out of 5 columns) -->
-          <div class="col-span-3 grid grid-cols-2 gap-4">
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">masrouf of the month</h3>
-              <p>{{masroufmonth}} $</p>
-            </div>
-      
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 2</h3>
-              <p>Content for Card 2.</p>
-            </div>
-      
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 3</h3>
-              <p>Content for Card 3.</p>
-            </div>
-      
-            <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
-              <h3 class="text-xl font-semibold">Card 4</h3>
-              <p>Content for Card 4.</p>
-              <button (click)="logout()">mmmm</button>
-            </div>
+      <!-- Row 1: Cards and Pie Chart -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
+        <!-- Cards Section takes 65% of the row (3 out of 5 columns) -->
+        <div class="col-span-3 grid grid-cols-2 gap-4">
+          <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
+            <h3 class="text-xl font-semibold">masrouf of the month</h3>
+            <p>{{masroufmonth}} $</p>
           </div>
-      
-          <!-- Pie Chart Section takes 35% of the row (2 out of 5 columns) -->
-          <div class="col-span-2 bg-white shadow-lg p-6 rounded-lg">
-            <h3 class="text-xl font-semibold">Pie Chart</h3>
-            <canvas id="chart-pie" class="chart-canvas"></canvas>
+    
+          <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
+            <h3 class="text-xl font-semibold">masrouf of the year</h3>
+            <p>{{masroufyear}} $</p>
+          </div>
+    
+          <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
+            <h3 class="text-xl font-semibold">Revenue of the month</h3>
+            <p>{{revenuemonth}} $</p>
+          </div>
+    
+          <div class="card bg-[linear-gradient(45deg,_#4CAF50,_#FFD700)] shadow-lg p-6 rounded-lg">
+            <h3 class="text-xl font-semibold">Revenue of the year</h3>
+            <p>{{revenueyear}} $</p>
+            
           </div>
         </div>
-      </div>
-      
-  
-      <!-- Row 2: Progress Bars and Calendar -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-  <!-- Progress Bars Section takes 75% of the row (3 out of 4 columns) -->
-  <div class="progress-bars col-span-3 grid grid-cols-1 gap-6">
     
-    <!-- Progress Bar 1 -->
-    <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-      <div class="flex-1">
-        <label class="text-lg font-semibold text-gray-700 mb-2">Progress Bar 1</label>
-        <progress class="progress w-full h-2 rounded-full bg-[#4CAF50]" value="60" max="100"></progress> <!-- Green -->
+        <!-- Pie Chart Section takes 35% of the row (2 out of 5 columns) -->
+        <div class="col-span-2 bg-white shadow-lg p-6 rounded-lg">
+          <h3 class="text-xl font-semibold">Pie Chart</h3>
+          <canvas id="chart-pie" class="chart-canvas"></canvas>
+        </div>
       </div>
-      <span class="text-lg font-semibold text-[#4CAF50]">60%</span> <!-- Green -->
     </div>
+    
 
-    <!-- Progress Bar 2 -->
-    <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-      <div class="flex-1">
-        <label class="text-lg font-semibold text-gray-700 mb-2">Progress Bar 2</label>
-        <progress class="progress w-full h-2 rounded-full bg-[#FFD700]" value="40" max="100"></progress> <!-- Gold -->
-      </div>
-      <span class="text-lg font-semibold text-[#FFD700]">40%</span> <!-- Gold -->
+    <!-- Row 2: Progress Bars and Calendar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+<!-- Progress Bars Section takes 75% of the row (3 out of 4 columns) -->
+<div class="progress-bars col-span-3 grid grid-cols-1 gap-6" >
+  
+  <!-- Progress Bar 1 -->
+  <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between" *ngFor="let goal of goals">
+    <div class="flex-1">
+      <label class="text-lg font-semibold text-gray-700 mb-2">Goal {{goal.id-3+1}}</label>
+      <progress 
+        class="progress w-full h-2 rounded-full bg-[#4CAF50]" 
+        [value]="(goal.actualSum / goal.desiredSum) * 100" 
+        max="100">
+      </progress> <!-- Green bar -->
     </div>
-
-    <!-- Progress Bar 3 -->
-    <div class="progress-bar bg-white shadow-lg p-6 rounded-lg flex items-center justify-between">
-      <div class="flex-1">
-        <label class="text-lg font-semibold text-gray-700 mb-2">Progress Bar 3</label>
-        <progress class="progress w-full h-2 rounded-full bg-[#4CAF50]" value="80" max="100"></progress> <!-- Green -->
-      </div>
-      <span class="text-lg font-semibold text-[#4CAF50]">80%</span> <!-- Green -->
-    </div>
+    <span class="text-lg font-semibold text-[#4CAF50]">
+      {{(goal.actualSum / goal.desiredSum) *100}} %
+    </span> <!-- Green percentage -->
   </div>
+  
 
-  <!-- Calendar Section takes 25% of the row (1 out of 4 columns) -->
-  <div class="calendar col-span-1 bg-white shadow-lg p-6 rounded-lg">
-    <h3 class="text-xl font-semibold text-[#4CAF50]">Calendar</h3> <!-- Green -->
-    <mat-calendar [(selected)]="selectedDate" [selected]="selectedDate"></mat-calendar>
-  </div>
 </div>
 
-      
-  
-      <!-- Row 3: Bar Chart and Card -->
+<!-- Calendar Section takes 25% of the row (1 out of 4 columns) -->
+<div class="calendar col-span-1 bg-white shadow-lg p-6 rounded-lg">
+  <h3 class="text-xl font-semibold text-[#4CAF50]">Calendar</h3> <!-- Green -->
+  <mat-calendar [(selected)]="selectedDate" [selected]="selectedDate"></mat-calendar>
+</div>
+</div>
+
+    
+
+    <!-- Row 3: Bar Chart and Card -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-  <!-- Bar Chart Section takes 75% of the row (3 out of 4 columns) -->
-  <div class="chart col-span-3 bg-white shadow-lg p-6 rounded-lg">
-    <h3 class="text-xl font-semibold">Bar Chart</h3>
-    <div class="p-4"> <!-- Set height to 50% -->
-      <div class="chart">
-        <canvas id="chart-line" class="chart-canvas2 " ></canvas> <!-- h-full makes the canvas take the full height of its parent -->
-      </div>
+<!-- Bar Chart Section takes 75% of the row (3 out of 4 columns) -->
+<div class="chart col-span-3 bg-white shadow-lg p-6 rounded-lg">
+  <h3 class="text-xl font-semibold">Bar Chart</h3>
+  <div class="p-4"> <!-- Set height to 50% -->
+    <div class="chart">
+      <canvas id="chart-line" class="chart-canvas2 " ></canvas> <!-- h-full makes the canvas take the full height of its parent -->
     </div>
   </div>
-
-  <!-- Advice Section takes 25% of the row (1 out of 4 columns) -->
-  <div class="card col-span-1 bg-white shadow-lg p-6 rounded-lg">
-    <div class="left-content">
-      <h3 class="text-xl font-semibold">Advice Title</h3>
-      <p class="text-gray-700 mt-2">
-        Here is the advice content. It provides useful insights or suggestions.
-      </p>
-    </div>
-    <div class="mascotte mt-4 flex justify-center">
-      <img
-        src="mascot.png"
-        alt="Mascot"
-        class=" object-cover"
-      />
-    </div>
-  </div>
-  
 </div>
-    </div>
 
-  </main>
-  
+<!-- Advice Section takes 25% of the row (1 out of 4 columns) -->
+<div class="card col-span-1 bg-white shadow-lg p-6 rounded-lg">
+  <div class="left-content">
+    <h3 class="text-xl font-semibold">Advice Title</h3>
+    <p class="text-gray-700 mt-2">
+      Here is the advice content. It provides useful insights or suggestions.
+    </p>
+  </div>
+  <div class="mascotte mt-4 flex justify-center">
+    <img
+      src="mascot.png"
+      alt="Mascot"
+      class=" object-cover"
+    />
+  </div>
+</div>
+
+</div>
+  </div>
+
+</main>

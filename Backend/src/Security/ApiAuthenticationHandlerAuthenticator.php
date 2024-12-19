@@ -2,9 +2,12 @@
 
 namespace App\Security;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -14,73 +17,98 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 /**
- * ApiAuthenticator handles API token-based authentication.
+ * ApiAuthenticationHandlerAuthenticator handles email and password authentication.
  */
 class ApiAuthenticationHandlerAuthenticator extends AbstractAuthenticator
 {
+    private UserRepository $userRepository;
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->userRepository = $userRepository;
+        $this->passwordHasher = $passwordHasher;
+    }
+
     /**
-     * Check if the authenticator supports this request based on the presence of a specific header.
+     * Check if the authenticator supports this request based on content type and body.
      */
     public function supports(Request $request): ?bool
     {
-        
-        // Here, we check if the request contains the required authentication token.
-        return $request->headers->has('Authorization') && strpos($request->headers->get('Authorization'), 'Bearer ') === 0;
+        return $request->isMethod('POST') && $request->getPathInfo() === '/login';
     }
 
     /**
-     * Perform the actual authentication using the provided API token.
+     * Perform the actual authentication using the provided email and password.
      */
     public function authenticate(Request $request): Passport
     {
-        // Extract the API token from the Authorization header.
-        $authorizationHeader = $request->headers->get('Authorization');
-        $apiToken = substr($authorizationHeader, 7); // Remove "Bearer " prefix.
-        dump($apiToken);
-        if (null === $apiToken) {
-            throw new CustomUserMessageAuthenticationException('No API token provided');
+        // Parse the request body to extract email and password
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['email'], $data['password'])) {
+            throw new CustomUserMessageAuthenticationException('Email and password are required.');
         }
 
-        // Here, you would look up the user based on the API token.
-        // For example, fetching the user from the database.
-        $user = $this->findUserByToken($apiToken);
-        
+        $email = $data['email'];
+        $password = $data['password'];
+
+        // Retrieve the user by email
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException('Invalid API token');
+            throw new CustomUserMessageAuthenticationException('Invalid credentials.');
         }
 
-        return new SelfValidatingPassport(new UserBadge($user->getEmail())); // Authenticate with user badge.
-    }
+        // Validate the password
+        if (!$this->passwordHasher->isPasswordValid($user, $password)) {
+            throw new CustomUserMessageAuthenticationException('Invalid credentials.');
+        }
 
-    /**
-     * Find the user by API token.
-     *
-     * @param string $apiToken
-     * @return User|null
-     */
-    private function findUserByToken(string $apiToken): ?User
-    {
-        // Assuming you have a UserRepository to fetch user by token.
-        // Replace this with your actual logic to fetch the user.
-        return $this->userRepository->findOneByApiToken($apiToken);
+        // Return a Passport with the authenticated user's email
+        return new SelfValidatingPassport(new UserBadge($email));
     }
 
     /**
      * Called after successful authentication.
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): JsonResponse
-    {
-        $user = $token->getUser();
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+{
+    // Extract email from the request body
+    $data = json_decode($request->getContent(), true);
+
+    if (!isset($data['email'])) {
         return new JsonResponse([
-            'status' => 'success',
-            'message' => 'Login successful',
-            'user' => [
-                'id' => $user->getId(),
-                'username' => $user->getUsername(),
-                'email' => $user->getEmail()
-            ]
-        ], Response::HTTP_OK);
+            'status' => 'error',
+            'message' => 'Email is missing from the request.',
+        ], Response::HTTP_BAD_REQUEST);
     }
+
+    $email = $data['email'];
+
+    // Fetch the user from the database
+    $user = $this->userRepository->findOneBy(['email' => $email]);
+
+    if (!$user) {
+        return new JsonResponse([
+            'status' => 'error',
+            'message' => 'User not found.',
+        ], Response::HTTP_NOT_FOUND);
+    }
+
+    // Return a success response with user data
+    return new JsonResponse([
+        'status' => 'success',
+        'message' => 'Login successful',
+        'user' => [
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
+        ],
+    ], Response::HTTP_OK);
+}
+
+
 
     /**
      * Called after authentication failure.
@@ -89,17 +117,8 @@ class ApiAuthenticationHandlerAuthenticator extends AbstractAuthenticator
     {
         return new JsonResponse([
             'status' => 'error',
-            'message' => 'Authentication failed',
-            'error' => $exception->getMessage()
+            'message' => 'Authentication failed.',
+            'error' => $exception->getMessage(),
         ], Response::HTTP_UNAUTHORIZED);
     }
-
-    // Optional: If you want to handle entry point for anonymous users, uncomment and implement start() method.
-    // public function start(Request $request, AuthenticationException $authException = null): Response
-    // {
-    //     return new JsonResponse([
-    //         'status' => 'error',
-    //         'message' => 'Unauthorized',
-    //     ], Response::HTTP_UNAUTHORIZED);
-    // }
 }

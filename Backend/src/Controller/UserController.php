@@ -71,7 +71,7 @@ public function register(
 }
 
 
-
+    
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(
         Request $request,
@@ -99,6 +99,8 @@ public function register(
         // Generate a response or token (if you have a token mechanism)
         return new JsonResponse(['message' => 'Login successful'], Response::HTTP_OK);
     }
+
+
     #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(Request $request, TokenStorageInterface $tokenStorage): Response
     {
