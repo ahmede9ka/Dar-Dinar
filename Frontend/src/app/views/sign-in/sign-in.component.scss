@@ -1,0 +1,56 @@
+/* Stepper container styling */
+mat-horizontal-stepper {
+    width: 100%;
+  }
+  
+  /* Form field styling */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+    padding-top: 3%;
+  }
+  
+  /* Button styling */
+  button {
+    margin-right: 8px;
+  }
+  
+  /* Background container for the entire page */
+  .page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full-screen height */
+    background: linear-gradient(45deg, #4CAF50, gold); /* Green and dark gray gradient */
+  }
+  
+  /* White box for the stepper */
+  .stepper-box {
+    background-color: white; /* White background for the box */
+    border-radius: 15px; /* Smooth rounded corners */
+    padding: 30px; /* Inner spacing for the content */
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.6); /* White shadow */
+    width: 90%; /* Adjust width based on screen size */
+    max-width: 800px; /* Maximum width for larger screens */
+  }
+  
+  /* Custom file button styling */
+  .custom-file-button {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .custom-file-button:hover {
+    background-color: #2E8B57; /* Darker green for hover */
+  }
+  
+  /* Mat form field padding adjustment */
+  mat-form-field {
+    padding-top: 3%; /* Adjust the value as needed */
+  }
+  

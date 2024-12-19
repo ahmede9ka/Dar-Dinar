@@ -8,6 +8,8 @@ import { MasarifComponent } from './views/masarif/masarif.component';
 import { Mada5ilComponent } from './views/mada5il/mada5il.component';
 import { ProfileComponent } from './views/profile/profile.component';
 import { GoalsComponent } from './views/goals/goals.component';
+import { sign } from 'crypto';
+import { SignInComponent } from './views/sign-in/sign-in.component';
 
 export const routes: Routes = [
     /*{ path: 'dashboard', component: DashboardComponent },
@@ -48,6 +50,10 @@ export const routes: Routes = [
             {
                 path:'goals',
                 component:GoalsComponent
+            },
+            {
+                path:'signin',
+                component:SignInComponent
             },
             
         ]
