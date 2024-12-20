@@ -5,10 +5,10 @@ doctrine:
       default:
         driver: pdo_mysql
         host: 127.0.0.1
-        port: 3306
+        port: 3308
         dbname: symfony
         user: root
-        password: letmein
+        password:
         charset: utf8mb4
     # Optionally, you can set a default dbname_suffix if needed for testing
     # dbname_suffix: "_test%env(default::TEST_TOKEN)%"

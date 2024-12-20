@@ -31,7 +31,7 @@ public function register(
 
     // Validate required fields
     if (!isset($data['email'], $data['username'], $data['password'], $data['date'], $data['sex']) || !$file) {
-        return new JsonResponse(['error' => 'Invalid data or missing image'], Response::HTTP_BAD_REQUEST);
+        return new JsonResponse(['data' => $request], Response::HTTP_BAD_REQUEST);
     }
 
     // Validate the provided date

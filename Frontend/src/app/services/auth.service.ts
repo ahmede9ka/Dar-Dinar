@@ -12,9 +12,10 @@ export class AuthService {
 
   // Register a new user
   register(user: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/register`, user);
-  }
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   
+    return this.http.post<any>(`${this.baseUrl}/register`, user, { headers });
+  }
   // Log in the user
   Login(user: any): Observable<any> {
     

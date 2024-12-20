@@ -109,34 +109,43 @@ export class SignInComponent {
       this.secondFormGroup.valid &&
       this.passwordFormGroup.valid
     ) {
+      // Perform any async operations before preparing the form data
       await this.mockApiRequest();
   
-      // Extract necessary values
+      // Destructure and prepare the form data
       const { confirmPassword, ...passwordGroupValues } = this.passwordFormGroup.value;
   
-      // Construct formData in the desired order
       const formData = {
-        email: this.firstFormGroup.value.email,
-        username: `${this.firstFormGroup.value.firstname} ${this.firstFormGroup.value.lastname}`, // Combine first and last name
-        password: passwordGroupValues.password,
-        is_verified: false, // Default value for new users
-        date: new Date(this.secondFormGroup.value.Date_of_birth).toISOString(), // Ensure ISO format for date
-        img: this.photo || '', // Photo as base64 or URL
-        sex: this.secondFormGroup.value.sex || '', // Ensure a `sex` field exists in the second form group
-        api_token: null, // Token will likely be generated server-side, so send null
+        "username": this.firstFormGroup.value.firstname, // Assuming username is the firstname
+        "password": passwordGroupValues.password,
+        "email": this.firstFormGroup.value.email,
+        "date": this.secondFormGroup.value.Date_of_birth,
+        "sex": this.firstFormGroup.value.lastname, // Assuming sex is the lastname
+        "img": this.photo || 'Default photo URL or message', // Fallback for photo
       };
-      
   
-      this.authService.register(formData).subscribe(() => {
-        console.log('Form Submitted Successfully!');
+      // Send the form data to the server via the AuthService
+      this.authService.register(formData).subscribe({
+        next: (data: any) => {
+          console.log('Server Response:', data);
+          console.log('Form Submitted Successfully!');
+          // Navigate to login after successful registration
+          this.router.navigate(['/login']);
+        },
+        error: (error: any) => {
+          console.error('Error during registration:', error);
+          // Handle errors appropriately (e.g., show a message to the user)
+        },
       });
   
+      // Log the form data for debugging
       console.log('Form Data:', formData);
     } else {
-      console.error('Form is invalid!');
+      console.error('Form is invalid! Please check the fields.');
+      // Optionally, highlight the invalid fields or show an error message
     }
-    this.router.navigate(['/dashboard']);
   }
+  
   
 
   // Simulated async validator for email

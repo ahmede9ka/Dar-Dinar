@@ -1,11 +1,12 @@
 nelmio_cors:
   defaults:
     allow_credentials: true
-    allow_origin: ["http://localhost:4200", "http://localhost:8000"] # Add your current domain
-    allow_headers: ["Authorization", "Content-Type", "X-Requested-With"]
+    allow_origin: ["http://localhost:4200", "http://localhost:8000"] # Add all the domains you need
+    allow_headers: ["*"]
     expose_headers: ["Authorization"]
     allow_methods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"]
     max_age: 3600
+
   paths:
-    "^/": # Apply the rules to your API routes
-      allow_origin: ["http://localhost:4200", "http://localhost:8000"]
+    ^/.*:
+      allow_origin: ["http://localhost:4200", "http://localhost:8000"] # Adjust this path as per your API endpoint
