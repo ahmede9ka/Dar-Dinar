@@ -54,6 +54,16 @@
             Invalid phone number format.
           </mat-error>
         </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>sex</mat-label>
+          <input matInput formControlName="sex" type="text" required />
+          <mat-error *ngIf="secondFormGroup.get('sex')?.hasError('required')">
+            sex is required.
+          </mat-error>
+          <mat-error *ngIf="secondFormGroup.get('sex')?.hasError('pattern')">
+            Invalid sex format.
+          </mat-error>
+        </mat-form-field>
   
         <mat-form-field appearance="fill">
           <mat-label>Date of Birth</mat-label>

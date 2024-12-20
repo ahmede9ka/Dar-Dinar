@@ -5,11 +5,13 @@ doctrine:
       default:
         driver: pdo_mysql
         host: 127.0.0.1
-        port: 3308
+        port: 3306
         dbname: symfony
         user: root
-        password:
+        password: letmein
         charset: utf8mb4
+    # Optionally, you can set a default dbname_suffix if needed for testing
+    # dbname_suffix: "_test%env(default::TEST_TOKEN)%"
 
   orm:
     auto_generate_proxy_classes: true
@@ -30,12 +32,14 @@ doctrine:
     controller_resolver:
       auto_mapping: false
 
+# Override for testing environment
 when@test:
   doctrine:
     dbal:
-      # "TEST_TOKEN" is typically set by ParaTest
+      # When running tests, set a dynamic dbname suffix if needed
       dbname_suffix: "_test%env(default::TEST_TOKEN)%"
 
+# Override for production environment
 when@prod:
   doctrine:
     orm:

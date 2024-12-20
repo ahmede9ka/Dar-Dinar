@@ -116,14 +116,16 @@ export class SignInComponent {
   
       // Construct formData in the desired order
       const formData = {
-        username: this.firstFormGroup.value.firstname,
-       
-        password: passwordGroupValues.password,
         email: this.firstFormGroup.value.email,
-      
-        Date_of_birth: this.secondFormGroup.value.Date_of_birth,
-        photo: this.photo || 'Default photo URL or message',
+        username: `${this.firstFormGroup.value.firstname} ${this.firstFormGroup.value.lastname}`, // Combine first and last name
+        password: passwordGroupValues.password,
+        is_verified: false, // Default value for new users
+        date: new Date(this.secondFormGroup.value.Date_of_birth).toISOString(), // Ensure ISO format for date
+        img: this.photo || '', // Photo as base64 or URL
+        sex: this.secondFormGroup.value.sex || '', // Ensure a `sex` field exists in the second form group
+        api_token: null, // Token will likely be generated server-side, so send null
       };
+      
   
       this.authService.register(formData).subscribe(() => {
         console.log('Form Submitted Successfully!');

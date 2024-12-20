@@ -57,6 +57,6 @@ export class LoginComponent {
     });
   }
   signin(): void {
-    this.router.navigate(['/signnin']);
+    this.router.navigate(['/signin']);
   }
 }
