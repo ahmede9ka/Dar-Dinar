@@ -3,7 +3,7 @@
   <main class="ml-64">
     <div class="p-6">
         <!-- Title -->
-        <h1 class="text-3xl font-bold mb-4">Masarif Table</h1>
+        <h1 class="text-3xl font-bold mb-4">Mada5il Table</h1>
       
         <!-- Table -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -17,13 +17,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of masarif" class="bg-white border-b">
+              <tr *ngFor="let item of Mada5il" class="bg-white border-b">
                 <td class="px-6 py-4">{{ item.quantity }}</td>
                 <td class="px-6 py-4">{{ item.date }}</td>
                 <td class="px-6 py-4">{{ item.type }}</td>
                 <td class="px-6 py-4">
                   <button
-                    (click)="deleteMasarif(item.id)"
+                    (click)="deleteMada5il(item.id)"
                     class="text-red-500 hover:underline me-4"
                   >
                     Delete
@@ -39,7 +39,7 @@
           (click)="openModal()"
           class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
         >
-          Add Masarif
+          Add Mada5il
         </button>
       
         <!-- Modal -->
@@ -48,25 +48,25 @@
           class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
         >
           <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 class="text-2xl font-bold mb-4">Add Masarif</h2>
+            <h2 class="text-2xl font-bold mb-4">Add Mada5il</h2>
             <label class="block mb-2">Quantity</label>
             <input
               type="number"
-              [(ngModel)]="newMasarif.quantity"
+              [(ngModel)]="newMada5il.quantity"
               class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
             />
       
             <label class="block mb-2">Date</label>
             <input
               type="date"
-              [(ngModel)]="newMasarif.date"
+              [(ngModel)]="newMada5il.date"
               class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
             />
       
             <label class="block mb-2">Type</label>
             <input
               type="text"
-              [(ngModel)]="newMasarif.type"
+              [(ngModel)]="newMada5il.type"
               class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
             />
       
@@ -78,7 +78,7 @@
                 Cancel
               </button>
               <button
-                (click)="addMasarif()"
+                (click)="addMada5il()"
                 class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
               >
                 Add
@@ -92,7 +92,7 @@
           *ngIf="showSuccess"
           class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg"
         >
-          🎉 Masarif Added Successfully!
+          🎉 Mada5il Added Successfully!
         </div>
       </div>
       

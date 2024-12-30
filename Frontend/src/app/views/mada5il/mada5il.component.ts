@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 
-interface MasarifItem {
+interface Mada5ilItem {
   id: number;
   quantity: number;
   date: string;
@@ -17,15 +17,15 @@ interface MasarifItem {
   styleUrl: './mada5il.component.scss'
 })
 export class Mada5ilComponent {
-  masarif: MasarifItem[] = [];
+  Mada5il: Mada5ilItem[] = [];
   showModal: boolean = false;
-  newMasarif: Partial<MasarifItem> = {};
+  newMada5il: Partial<Mada5ilItem> = {};
   showSuccess: boolean = false;
 
   // Open Modal
   openModal() {
     this.showModal = true;
-    this.newMasarif = {};
+    this.newMada5il = {};
   }
 
   // Close Modal
@@ -34,13 +34,13 @@ export class Mada5ilComponent {
   }
 
   // Add New Record
-  addMasarif() {
-    if (this.newMasarif.quantity && this.newMasarif.date && this.newMasarif.type) {
-      this.masarif.push({
+  addMada5il() {
+    if (this.newMada5il.quantity && this.newMada5il.date && this.newMada5il.type) {
+      this.Mada5il.push({
         id: Date.now(),
-        quantity: Number(this.newMasarif.quantity),
-        date: this.newMasarif.date,
-        type: this.newMasarif.type,
+        quantity: Number(this.newMada5il.quantity),
+        date: this.newMada5il.date,
+        type: this.newMada5il.type,
       });
       this.showModal = false;
       this.showSuccessMessage();
@@ -48,8 +48,8 @@ export class Mada5ilComponent {
   }
 
   // Delete Record
-  deleteMasarif(id: number) {
-    this.masarif = this.masarif.filter((item) => item.id !== id);
+  deleteMada5il(id: number) {
+    this.Mada5il = this.Mada5il.filter((item) => item.id !== id);
   }
 
   // Show Success Message
