@@ -12,6 +12,7 @@ import { RevenueService } from '../../services/revenue.service';
 import { SideBarComponent } from "../side-bar/side-bar.component";
 import { GoalService } from '../../services/goal.service';
 import { NgForOf } from '@angular/common';
+import { AdviceService } from '../../services/advice.service';
 Chart.register(...registerables);
 
 @Component({
@@ -33,13 +34,15 @@ export class DashComponent implements OnInit {
   barChartInstance: any; // To handle existing bar chart instance
   pieChartInstance: any; // To handle existing pie chart instance
   goals:any;
+  advice:any;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private masroufservice: MasroufService,
     private authservice: AuthService,
     private router: Router,
     private revenueservice: RevenueService,
-    private goalservice:GoalService
+    private goalservice:GoalService,
+    private adviceservice:AdviceService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +54,7 @@ export class DashComponent implements OnInit {
       this.initializeChart();
       this.initializeChart2();
     }
+    this.getadvice();
   }
 
   loadData(): void {
@@ -205,5 +209,10 @@ export class DashComponent implements OnInit {
 
     return (usePound ? '#' : '') + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
   }
-
+  getadvice(){
+    this.adviceservice.getadvice().subscribe((data:any)=>{
+      console.log(data);
+      this.advice = data;
+    })
+  }
 }

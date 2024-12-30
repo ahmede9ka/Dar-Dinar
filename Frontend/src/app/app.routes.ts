@@ -10,6 +10,8 @@ import { ProfileComponent } from './views/profile/profile.component';
 import { GoalsComponent } from './views/goals/goals.component';
 import { sign } from 'crypto';
 import { SignInComponent } from './views/sign-in/sign-in.component';
+import { authGuard } from './services/auth.guard';
+import { notauthGuard } from './services/notauth.guard';
 
 export const routes: Routes = [
     /*{ path: 'dashboard', component: DashboardComponent },
@@ -21,39 +23,48 @@ export const routes: Routes = [
     {
         path: '',
         component: PersonaLayoutComponent,
+        
         children: [
             {
                 path: '',
                 component: LandingPageComponent,
+                //canActivate:[notauthGuard]
             },
             
             {
                 path: 'dashboard',
                 component: DashComponent,
+                canActivate:[authGuard]
             },
             {
                 path: 'login',
-                component: LoginComponent
+                component: LoginComponent,
+                canActivate:[notauthGuard]
             },
             {
                 path:'masarif',
-                component:MasarifComponent
+                component:MasarifComponent,
+                canActivate:[authGuard]
             },
             {
                 path:'mada5il',
-                component:Mada5ilComponent
+                component:Mada5ilComponent,
+                canActivate:[authGuard]
             },
             {
                 path:'profile',
-                component:ProfileComponent
+                component:ProfileComponent,
+                canActivate:[authGuard]
             },
             {
                 path:'goals',
-                component:GoalsComponent
+                component:GoalsComponent,
+                canActivate:[authGuard]
             },
             {
                 path:'signin',
-                component:SignInComponent
+                component:SignInComponent,
+                canActivate:[notauthGuard]
             },
             
         ]

@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Connection;
-#[Route('')]
 final class AdviceController extends AbstractController
 {
     private $connection;
@@ -113,7 +112,7 @@ final class AdviceController extends AbstractController
         ]);
     }
 
-    #[Route('/api/getAlltypes', name: 'api_advice_random', methods: ['GET'])]
+    #[Route('/api/getAlltypes', name: 'api_advice_types', methods: ['GET'])]
 public function getAlltypes(EntityManagerInterface $entityManager): JsonResponse
 {
     // Query to fetch distinct types from the Advice entity

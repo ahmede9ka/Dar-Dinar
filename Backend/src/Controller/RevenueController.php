@@ -166,6 +166,7 @@ class RevenueController extends AbstractController
             return $this->json([
                 'error' => 'An error occurred while fetching monthly data',
                 'details' => $e->getMessage(),
+                'user'=>$user,
             ], 500);
         }
     }
