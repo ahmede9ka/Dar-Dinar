@@ -8,7 +8,7 @@ import { RevenueService } from '../../services/revenue.service';
 
 interface MasarifItem {
   id: number;
-  quantity: number;
+  value: number;
   date: string;
   type: string;
 }
@@ -39,13 +39,13 @@ export class MasarifComponent implements OnInit {
 
   // Fetch all Masarif records
   loadMasarif(): void {
-    this.masroufService.getAllMasrouf().subscribe((data: any) => {
+    this.masroufService.getAllMasroufs().subscribe((data: any) => {
       console.log(data);
       const user = JSON.parse(localStorage.getItem('user') || '{}'); // Parse the stored user object
       console.log(user);
       
       // Filter goals for the current user and get only the first three
-      this.masarif = data.filter((masarif: any) => masarif.user.id === user.id);
+      this.masarif = data;
       
       console.log('Filtered masarif:', this.masarif);
     });
@@ -65,17 +65,17 @@ export class MasarifComponent implements OnInit {
 
   // Add New Record
   addMasarif() {
-    if (this.newMasarif.quantity && this.newMasarif.date && this.newMasarif.type) {
+    if (this.newMasarif.value && this.newMasarif.date && this.newMasarif.type) {
       const masarifPayload = {
        
-        "value": Number(this.newMasarif.quantity), 
+        "value": Number(this.newMasarif.value), 
         "date": this.newMasarif.date,
         "type": this.newMasarif.type,
       };
   
       console.log('Payload:', masarifPayload);
   
-      this.masroufService.createMasrouf(this.masarif).subscribe({
+      this.masroufService.createMasrouf(masarifPayload).subscribe({
         next: (data: any) => {
           console.log('Masarif created successfully:', data);
           this.showModal = false;

@@ -18,7 +18,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of Mada5il" class="bg-white border-b">
-                <td class="px-6 py-4">{{ item.quantity }}</td>
+                <td class="px-6 py-4">{{ item.value }}</td>
                 <td class="px-6 py-4">{{ item.date }}</td>
                 <td class="px-6 py-4">{{ item.type }}</td>
                 <td class="px-6 py-4">
@@ -52,7 +52,7 @@
             <label class="block mb-2">Quantity</label>
             <input
               type="number"
-              [(ngModel)]="newMada5il.quantity"
+              [(ngModel)]="newMada5il.value"
               class="w-full px-4 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
             />
       
