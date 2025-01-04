@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { SideBarComponent } from "../side-bar/side-bar.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [SideBarComponent],
+  imports: [SideBarComponent,CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -19,7 +20,32 @@ export class ProfileComponent {
   constructor() {
     this.loadProfile(); // Call loadProfile on component initialization
   }
+  profileImageUrl: string = 'https://via.placeholder.com/150'; // Default profile image URL
+  coverImageUrl: string = 'https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg'; // Default cover image URL
 
+  // Method to handle profile photo change
+  onProfileImageChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profileImageUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Method to handle cover photo change
+  onCoverImageChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.coverImageUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
   onChangePhoto() {
     // Trigger file input to change profile photo
     const fileInput = document.getElementById('file-input') as HTMLInputElement;
