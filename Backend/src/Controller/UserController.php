@@ -118,6 +118,9 @@ public function register(
             'id' => $user->getId(),
             'username' => $user->getUsername(),
             'email' => $user->getEmail(),
+            'sex' => $user->getSex(),
+            'date' => $user->getDate(),
+            'image' => $user->getImg()
         ]);
     }
 }
