@@ -94,17 +94,33 @@ export class GoalsComponent implements OnInit{
     this.showSuccess = true;
     setTimeout(() => (this.showSuccess = false), 3000);
   }
-  zid(){
-    const form = {
-      "zyeda":this.zyeda
+  zid() {
+    try {
+      const form = {
+        zyeda: this.zyeda
+      };
+  
+      this.goalservice.zidFlousLelgoal(this.id, form).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.showModalzid = false; // Hide modal after successful submission
+          this.showSuccessMessage(); // Show success message
+          this.loadgoals(); // Refresh goals list
+        },
+        (error: any) => {
+          console.error("An error occurred:", error);
+          const max = this.output-this.input;
+          alert("lezmek tzid maximum "+max);
+          this.closeModalzid();
+          //this.showErrorMessage(); // Optional: Display an error message to the user
+        }
+      );
+    } catch (errors) {
+      console.error("Unexpected error:", errors);
+      //this.showErrorMessage();
     }
-    this.goalservice.zidFlousLelgoal(this.id,form).subscribe((data:any)=>{
-      console.log(data);
-    })
-    this.showModalzid = false;
-    this.showSuccessMessage();
-    this.loadgoals();
   }
+  
   openModalZid(id:any){
     this.showModalzid = true;
     this.id = id;

@@ -24,13 +24,14 @@ export class SideBarComponent implements OnInit{
 
   loadUserData(): void {
     
-   
+    const baseImageUrl = 'http://127.0.0.1:8000/uploads/';
       const user = JSON.parse(localStorage.getItem('user') || '{}'); // Parse the stored user object
       console.log(user);
       if (user) {
       
         this.userName = user.username || 'User';
-        this.userPhotoUrl = user.photo || '/assets/default-profile.png';
+        
+        this.userPhotoUrl = `${baseImageUrl}${user.image}`;
       }
   }
 
